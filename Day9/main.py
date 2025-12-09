@@ -34,16 +34,19 @@ def part1(input):
     return max(areas)
 
 def part2(input):
-    combinations = make_combinations(input)
     poly = Polygon(input)
-    areas = []
+    combinations = make_combinations(input)
+    comb_with_area = {}
     for c in combinations:
+        a = calc_area(c)
+        comb_with_area[c] = a
+    comb_with_area = dict(sorted(comb_with_area.items(), key=lambda item: item[1],reverse=True))
+    for c in comb_with_area.keys():
         corners = get_corners(c)
         square = Polygon(corners)
         if poly.contains(square):
             a = calc_area(c)
-            areas.append(a)
-    return max(areas)   
+            return a
 
 t1 = timeit.default_timer()
 p1 = part1(input)
